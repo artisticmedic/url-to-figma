@@ -60,8 +60,12 @@ The popup shows live status as the capture runs:
 |--------|-----------------|
 | Fetching script… | Downloading Figma's capture script from `mcp.figma.com` |
 | Injecting into page… | Loading the script into the current tab |
-| Capturing page… | Figma's API is serializing the DOM |
-| Paste into Figma when ready | Capture complete — clipboard is loaded |
+| Click "Copy to clipboard" on the page bar | Script is running — one click on the page is required to finish (see below) |
+
+Once you click "Copy to clipboard" on the page bar, open Figma and paste.
+
+> [!NOTE]
+> **Why is one click still required?** Browsers only allow clipboard writes in direct response to a user gesture on the page itself — a click inside the extension popup doesn't count. Figma's capture bar handles this by giving you a "Copy to clipboard" button to click, which provides that gesture. This is a browser security requirement and can't be bypassed.
 
 If something goes wrong, the status will tell you why:
 
@@ -69,10 +73,7 @@ If something goes wrong, the status will tell you why:
 |-------|-------|
 | Could not reach Figma servers | Network issue, or `mcp.figma.com` is temporarily down |
 | Cannot inject into this page | Chrome internal pages (`chrome://`) can't be captured |
-| Figma API unavailable | Rare — usually resolves on retry |
-
-> [!TIP]
-> **The first load might "perma-load".** If the page toolbar shows "Copying…" and seems stuck, click it to finish the loop.
+| Figma API unavailable — try reloading the page | The script didn't initialize in time; reload and try again |
 
 ---
 

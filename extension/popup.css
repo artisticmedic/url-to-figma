@@ -163,6 +163,12 @@ body {
   border-color: var(--amber-border);
 }
 
+/* Waiting: needs user action — amber tint, persistent */
+.status-pill[data-state="waiting"] {
+  background: var(--amber-bg);
+  border-color: var(--amber-border);
+}
+
 /* Capturing: accent tint */
 .status-pill[data-state="capturing"] {
   background: var(--surface);
@@ -182,7 +188,8 @@ body {
 [data-state="done"]     .status-text { color: var(--green); }
 [data-state="error"]    .status-text { color: var(--red); }
 [data-state="fetching"] .status-text,
-[data-state="injecting"] .status-text { color: var(--amber); }
+[data-state="injecting"] .status-text,
+[data-state="waiting"]  .status-text { color: var(--amber); }
 
 /* ─── Indicator ────────────────────────────────────────────── */
 
@@ -206,6 +213,12 @@ body {
   border: 1.5px solid var(--amber);
   border-top-color: transparent;
   animation: spin 0.75s linear infinite;
+}
+
+/* Waiting: static amber dot — script is done, ball is in user's court */
+[data-state="waiting"] .indicator {
+  background: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-bg);
 }
 
 /* Capturing: accent spinner */

@@ -5,12 +5,11 @@ const statusText = document.getElementById('status-text');
 // ─── State machine ────────────────────────────────────────────
 
 const STATES = {
-  idle:      { label: 'Ready to capture',          btnText: 'Capture Page',   disabled: false },
-  fetching:  { label: 'Fetching script…',           btnText: 'Capture Page',   disabled: true  },
-  injecting: { label: 'Injecting into page…',       btnText: 'Capture Page',   disabled: true  },
-  capturing: { label: 'Capturing page…',            btnText: 'Capture Page',   disabled: true  },
-  done:      { label: 'Paste into Figma when ready',btnText: 'Capture Again',  disabled: false },
-  error:     { label: '',                            btnText: 'Try Again',      disabled: false },
+  idle:      { label: 'Ready to capture',                         btnText: 'Capture Page',  disabled: false },
+  fetching:  { label: 'Fetching script…',                          btnText: 'Capture Page',  disabled: true  },
+  injecting: { label: 'Injecting into page…',                      btnText: 'Capture Page',  disabled: true  },
+  waiting:   { label: 'Click "Copy to clipboard" on the page bar', btnText: 'Capture Again', disabled: false },
+  error:     { label: '',                                           btnText: 'Try Again',     disabled: false },
 };
 
 function setState(state, errorMsg) {
@@ -33,23 +32,19 @@ async function capture() {
   let scriptText;
   try {
     const res = await fetch('https://mcp.figma.com/mcp/html-to-design/capture.js');
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     scriptText = await res.text();
-  } catch (err) {
+  } catch {
     setState('error', 'Could not reach Figma servers');
     return;
   }
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
   if (!tab?.id) {
     setState('error', 'No active tab found');
     return;
   }
 
-  // Inject the fetched script text into the page's main world.
-  // Running via chrome.scripting bypasses the page's CSP — the fetch
-  // above already ran in the extension context, so no page-side fetch needed.
   setState('injecting');
   try {
     await chrome.scripting.executeScript({
@@ -59,47 +54,40 @@ async function capture() {
         const el = document.createElement('script');
         el.textContent = code;
         (document.head || document.documentElement).appendChild(el);
-        el.remove(); // script has already executed at this point
+        el.remove();
       },
       args: [scriptText],
     });
-  } catch (err) {
-    // Common causes: chrome:// URLs, extension pages, missing activeTab
+  } catch {
     setState('error', 'Cannot inject into this page');
     return;
   }
 
-  // Give the Figma capture API a moment to initialize
+  // Give the Figma API a moment to initialize, then trigger capture.
+  // captureForDesign fires and returns immediately — it shows a bar on the page
+  // where the user must click "Copy to clipboard". That user click provides the
+  // browser gesture required for the clipboard write; we can't do it for them.
   await sleep(1000);
 
-  setState('capturing');
-
   try {
-    const [result] = await chrome.scripting.executeScript({
+    await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       world:  'MAIN',
       func:   () => {
         if (typeof window.figma?.captureForDesign !== 'function') {
-          return { error: 'Figma API unavailable — site may have blocked the script' };
+          throw new Error('Figma API unavailable');
         }
         window.figma.captureForDesign({ selector: 'body' });
-        return { ok: true };
       },
     });
-
-    if (result?.result?.error) {
-      setState('error', result.result.error);
-      return;
-    }
   } catch (err) {
-    setState('error', 'Capture failed');
+    setState('error', err.message === 'Figma API unavailable'
+      ? 'Figma API unavailable — try reloading the page'
+      : 'Capture failed');
     return;
   }
 
-  // Capture runs async on the page side — give it a few seconds then
-  // hand off to the user. The page toolbar shows live progress.
-  await sleep(3500);
-  setState('done');
+  setState('waiting');
 }
 
 // ─── Init ─────────────────────────────────────────────────────
