@@ -1,123 +1,136 @@
 # URL to Figma
 
-A free tool to copy any local or live url and send it to Figma as an editable design. This operates with the same core features and fidelity that the paid Claude Code x Figma plug-in works.
+A free Chrome extension to capture any local or live URL and send it to Figma as an editable design. This operates with the same core features and fidelity that the paid Claude Code × Figma plug-in works.
 
-> **Free. No installs. No third-parties.**
-> As of March 18, 2026, this works with any Figma account (free or paid), and in both the browser or desktop app. There is no authentication gate from Figma on this call. It does not call any third-parties (other than Figma itself).
+**Free. No account. No third-parties.**
+
+As of March 18, 2026, this works with any Figma account (free or paid), and in both the browser or desktop app. There is no authentication gate from Figma on this call. It does not call any third-parties (other than Figma itself).
 
 ---
 
 <!-- TODO: Hero video — screen recording of the full flow end-to-end -->
 
-## The Script
+## Install the Extension
 
-> **TLDR:** Paste script into browser console → copy page to clipboard using spawned toolbar → paste in Figma
+> [!IMPORTANT]
+> This is a developer install — it takes about 30 seconds.
 
-```javascript
-fetch('https://mcp.figma.com/mcp/html-to-design/capture.js')
-  .then(r => r.text())
-  .then(s => {
-    const el = document.createElement('script');
-    el.textContent = s;
-    document.head.appendChild(el);
-    setTimeout(() => window.figma.captureForDesign({ selector: '*' }), 1000);
-  });
-```
+**1. Get the files**
+Clone or download this repo to your computer.
+ 
+**2. Open Chrome extensions**
+Navigate to `chrome://extensions` in Chrome.
 
----
+**3. Enable Developer mode**
+Toggle on **Developer mode** in the top-right corner of the page.
 
-## Step by Step
+**4. Load the extension**
+Click **Load unpacked**, then select the `extension/` folder from this repo.
 
-> **1. Copy the script**
-> Copy the code block above. You can also save this to [Raycast](https://raycast.com) or any clipboard manager for quick access — [more on that below](#quick-access-with-raycast-optional).
-
-> **2. Open any webpage**
-> Navigate via browser to whatever page you want to capture: a live site or a local HTML/build.
-
-> **3. Open DevTools console**
->
-> | OS | Shortcut |
-> |----|----------|
-> | Mac (Chrome) | `Cmd + Option + J` |
-> | Mac (Safari) | `Cmd + Option + C` (must enable Developer menu first) |
-> | Windows/Linux (Chrome) | `Ctrl + Shift + J` |
-> | Any browser | Right-click anywhere → "Inspect" → click the "Console" tab |
->
-> You can also use the Help menu button on MacOS and search "Developer tools."
-<!-- TODO: Screen recording showing how to open DevTools console -->
-
-> **4. Paste the script and hit Enter**
-> Navigate to the console tab and paste the script into the console. Press Enter.
->
-> If this your first time pasting into dev tools, you'll get a message asking you to allow pasting.
-<!-- TODO: Screen recording of pasting into console -->
-
-> **5. Click the element you want**
-> An element picker will appear. Click on whatever part of the page you want to capture. You can pick the whole page or just a section.
-
-> **6. Paste into Figma**
-> Open Figma and paste (`Cmd + V` on Mac, `Ctrl + V` on Windows). You'll get real, editable Figma frames.
-<!-- TODO: Screen recording showing the paste result in Figma -->
+**5. Pin it**
+Click the puzzle piece icon in the Chrome toolbar and pin ⚡ URL to Figma so it's always one click away.
 
 ---
 
-### What to expect after pressing Enter
+## How to Use
 
-| State | What you see | What to do |
-|-------|-------------|------------|
-| Success | `Promise {<pending>}` + a toolbar appears at the top of the page | You're good. Click the element you want |
-| Allow pasting | Chrome asks you to type `allow pasting` | Type it, press Enter, then paste the script again |
-| CSP error | Red text mentioning "Content Security Policy" or "Refused to connect" | The website is blocking the script. Nothing wrong on your end. [See below](#which-sites-work) |
+**TLDR:** Click ⚡ in your toolbar → click "Capture Page" → paste in Figma
 
-> **New to the console?** Don't panic if you see red error messages before you even paste anything. That's completely normal, every website logs behind-the-scenes issues there. It doesn't affect what you see on screen. You can ignore all of it.
+**1. Navigate to any page**
+Open whatever you want to capture — a live site or a local HTML/build.
 
-### Which sites work?
+**2. Click the ⚡ icon**
+It's in your Chrome toolbar. The popup opens.
 
-The script needs to fetch a file from Figma's servers. Some websites block this with their security policy (CSP). There's no workaround for this currently, it's a restriction set by the website itself.
+**3. Click "Capture Page"**
+The extension fetches and injects the capture script, then captures the full page automatically. You can watch the status update in real time.
+
+**4. Paste into Figma**
+Open Figma and paste (`Cmd + V` on Mac, `Ctrl + V` on Windows). You'll get real, editable Figma frames — not an image.
+
+<!-- TODO: Screen recording of the full flow end-to-end -->
+
+---
+
+## What to Expect
+
+The popup shows live status as the capture runs:
+
+| Status | What's happening |
+|--------|-----------------|
+| Fetching script… | Downloading Figma's capture script from `mcp.figma.com` |
+| Injecting into page… | Loading the script into the current tab |
+| Click "Copy to clipboard" on the page bar | Script is running — one click on the page is required to finish (see below) |
+
+Once you click "Copy to clipboard" on the page bar, open Figma and paste.
+
+> [!NOTE]
+> **Why is one click still required?** Browsers only allow clipboard writes in direct response to a user gesture on the page itself — a click inside the extension popup doesn't count. Figma's capture bar handles this by giving you a "Copy to clipboard" button to click, which provides that gesture. This is a browser security requirement and can't be bypassed.
+
+If something goes wrong, the status will tell you why:
+
+| Error | Cause |
+|-------|-------|
+| Could not reach Figma servers | Network issue, or `mcp.figma.com` is temporarily down |
+| Cannot inject into this page | Chrome internal pages (`chrome://`) can't be captured |
+| Figma API unavailable — try reloading the page | The script didn't initialize in time; reload and try again |
+
+---
+
+## Which Sites Work
+
+The extension fetches Figma's capture script from within the extension context — not from the page itself. This means it bypasses the Content Security Policy (CSP) restrictions that block the console script method on many sites.
 
 | | Examples |
 |---|---------|
-| **Tends to work** | Marketing sites, portfolios, docs, blogs (e.g. tailwindcss.com, dribbble.com, google.com) |
-| **Tends to block** | SaaS platforms, developer tools, strict security sites (e.g. github.com, stripe.com, linear.app, duckduckgo.com, wikipedia.org) |
-
----
-
-## Quick Access with Raycast (Optional)
-
-<!-- TODO: Brief Raycast snippet tip in your voice — save the script as a clipboard snippet for one-keystroke access -->
+| **Tends to work** | Most sites, including many that block the console method: marketing sites, portfolios, docs, SaaS apps |
+| **Cannot capture** | Chrome internal pages (`chrome://`), other extension pages |
 
 ---
 
 ## How It Works
 
-The script does four things:
+```mermaid
+flowchart LR
+    A([⚡ Click Capture Page])
 
-1. **Fetches** Figma's capture script from `mcp.figma.com` as plain text
-2. **Injects** it into the page — this bypasses Content Security Policy restrictions that would block a normal `<script>` tag
-3. **Waits** one second for the script to initialize
-4. **Triggers** the capture with `selector: '*'`, which opens a click-to-select picker
+    A --> B
 
-The capture serializes the visible DOM into a format Figma understands. It's copied to your clipboard as Figma-compatible data — when you paste, you get editable frames, not an image.
+    subgraph ext ["Extension context — bypasses page CSP"]
+        B["Fetch capture.js\nfrom mcp.figma.com"]
+    end
 
-> **What gets sent where**
-> - **The script itself** is fetched from Figma's servers (`mcp.figma.com`). This is a one-time download.
-> - **Your page content stays local.** The DOM capture is serialized and copied to your clipboard. Nothing is sent to any server.
-> - **When you paste into Figma**, that's when Figma processes the data, which is the same as pasting anything else into Figma.
+    B -->|"inject into page via\nChrome Scripting API"| C
 
-### Selector Options
+    subgraph tab ["Current tab"]
+        direction TB
+        C["capture.js running"]
+        C -->|"wait 1s to initialize"| D["serialize visible\nDOM to Figma format"]
+        D --> G[("Clipboard")]
+    end
 
-| Selector | Behavior |
-|----------|----------|
-| `'*'` | Element picker — click what you want |
-| `'body'` | Capture the entire page automatically |
-| `'.my-class'` | Capture a specific element by CSS selector |
+    G --> H([Paste into Figma])
+
+    classDef accent fill:#6460f5,stroke:none,color:#fff
+    classDef done fill:#22c55e,stroke:none,color:#fff
+    class A accent
+    class H done
+    style ext fill:#eeecff,stroke:#a8a5fc
+    style tab fill:#f5f4f2,stroke:#ddd9d3
+```
+
+The key detail: because the fetch runs in the extension's own context rather than the page's, it sidesteps Content Security Policy restrictions that would block the same request from the browser console on many sites.
+
+### What gets sent where
+- **The script itself** is fetched from Figma's servers (`mcp.figma.com`). This is a one-time download per capture.
+- **Your page content stays local.** The DOM capture is serialized and copied to your clipboard. Nothing is sent to any server.
+- **When you paste into Figma**, that's when Figma processes the data — the same as pasting anything else into Figma.
 
 ---
 
 ## Tips & Limitations
 
-- **The first load might "perma-load".** Click the "Copying..." at the top of the page to complete the loop.
-- **Heavy pages might be slow.** Clicking a specific element is faster than capturing the whole body.
+- **Heavy pages might be slow.** The status will show "Capturing page…" until the page-side toolbar finishes. Give it a few seconds.
 - **Fonts may not transfer.** Custom/local fonts may not render in Figma. Google Fonts usually work.
 - **No interactivity.** You get static frames — no hover states, animations, or working buttons.
 - **Clipboard permission.** Your browser may ask for clipboard access the first time.

@@ -1,0 +1,249 @@
+/* ─── Tokens ───────────────────────────────────────────────── */
+
+:root {
+  --bg:           #ffffff;
+  --surface:      #f5f4f2;
+  --border:       #e8e5e0;
+  --text:         #1a1a18;
+  --text-muted:   #88847e;
+  --text-dim:     #c4bfb8;
+  --divider:      #eeebe5;
+
+  --accent:       #6460f5;
+  --accent-hover: #524ef0;
+  --accent-press: #4a46e0;
+  --accent-glow:  rgba(100, 96, 245, 0.28);
+
+  --green:        #22c55e;
+  --green-bg:     rgba(34, 197, 94, 0.10);
+  --green-border: rgba(34, 197, 94, 0.20);
+
+  --amber:        #f59e0b;
+  --amber-bg:     rgba(245, 158, 11, 0.10);
+  --amber-border: rgba(245, 158, 11, 0.22);
+
+  --red:          #ef4444;
+  --red-bg:       rgba(239, 68, 68, 0.08);
+  --red-border:   rgba(239, 68, 68, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:           #141210;
+    --surface:      #1e1b19;
+    --border:       #2e2a26;
+    --text:         #e8e4df;
+    --text-muted:   #6b6560;
+    --text-dim:     #3d3830;
+    --divider:      #252220;
+
+    --accent:       #7b78f7;
+    --accent-hover: #8d8af9;
+    --accent-press: #6f6cf5;
+    --accent-glow:  rgba(123, 120, 247, 0.30);
+
+    --green:        #34c47a;
+    --green-bg:     rgba(52, 196, 122, 0.10);
+    --green-border: rgba(52, 196, 122, 0.20);
+
+    --amber:        #f0a040;
+    --amber-bg:     rgba(240, 160, 64, 0.10);
+    --amber-border: rgba(240, 160, 64, 0.22);
+
+    --red:          #f87171;
+    --red-bg:       rgba(248, 113, 113, 0.08);
+    --red-border:   rgba(248, 113, 113, 0.18);
+  }
+}
+
+/* ─── Reset & base ─────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 280px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  padding: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Header ───────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.header-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.header-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.15px;
+  color: var(--text);
+}
+
+/* ─── Button ───────────────────────────────────────────────── */
+
+.btn-capture {
+  display: block;
+  width: 100%;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  transition: background 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 2px 8px var(--accent-glow);
+}
+
+.btn-capture:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-capture:active:not(:disabled) {
+  background: var(--accent-press);
+  box-shadow: none;
+}
+
+.btn-capture:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ─── Status pill ──────────────────────────────────────────── */
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 9px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Done state: tint the pill green */
+.status-pill[data-state="done"] {
+  background: var(--green-bg);
+  border-color: var(--green-border);
+}
+
+/* Error state: tint the pill red */
+.status-pill[data-state="error"] {
+  background: var(--red-bg);
+  border-color: var(--red-border);
+}
+
+/* Working states: amber tint */
+.status-pill[data-state="fetching"],
+.status-pill[data-state="injecting"] {
+  background: var(--amber-bg);
+  border-color: var(--amber-border);
+}
+
+/* Waiting: needs user action — amber tint, persistent */
+.status-pill[data-state="waiting"] {
+  background: var(--amber-bg);
+  border-color: var(--amber-border);
+}
+
+/* Capturing: accent tint */
+.status-pill[data-state="capturing"] {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* ─── Status text ──────────────────────────────────────────── */
+
+.status-text {
+  font-size: 11.5px;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Mono', monospace;
+  color: var(--text-muted);
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+[data-state="done"]     .status-text { color: var(--green); }
+[data-state="error"]    .status-text { color: var(--red); }
+[data-state="fetching"] .status-text,
+[data-state="injecting"] .status-text,
+[data-state="waiting"]  .status-text { color: var(--amber); }
+
+/* ─── Indicator ────────────────────────────────────────────── */
+
+.indicator {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Idle: gray dot */
+[data-state="idle"] .indicator {
+  background: var(--text-dim);
+}
+
+/* Fetching / injecting: amber spinner */
+[data-state="fetching"] .indicator,
+[data-state="injecting"] .indicator {
+  background: transparent;
+  border: 1.5px solid var(--amber);
+  border-top-color: transparent;
+  animation: spin 0.75s linear infinite;
+}
+
+/* Waiting: static amber dot — script is done, ball is in user's court */
+[data-state="waiting"] .indicator {
+  background: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-bg);
+}
+
+/* Capturing: accent spinner */
+[data-state="capturing"] .indicator {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  border-top-color: transparent;
+  animation: spin 0.75s linear infinite;
+}
+
+/* Done: green solid dot with glow */
+[data-state="done"] .indicator {
+  background: var(--green);
+  box-shadow: 0 0 0 3px var(--green-bg);
+  width: 7px;
+  height: 7px;
+}
+
+/* Error: red dot */
+[data-state="error"] .indicator {
+  background: var(--red);
+}
+
+/* ─── Animations ───────────────────────────────────────────── */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
