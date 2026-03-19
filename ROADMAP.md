@@ -29,6 +29,10 @@ Wrap the capture script in a Chrome extension so designers never have to open th
 - Chrome Web Store listing
 
 **Stretch goals:**
+- Multi-breakpoint capture (capture the same page at multiple viewport widths in one action)
+- Scrolling capture (capture full-page content beyond the visible viewport)
+- Wireframe mode (strip colors, images, and styling down to a structural wireframe capture)
+- Sitemap crawl (feed a sitemap URL and batch-capture every page into Figma)
 - Firefox support
 - Capture history
 - Element-specific selector presets
