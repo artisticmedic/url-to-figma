@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL to Figma</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <header class="header">
+    <span class="header-icon">⚡</span>
+    <span class="header-name">URL to Figma</span>
+  </header>
+
+  <button class="btn-capture" id="btn">Capture Page</button>
+
+  <div class="status-pill" id="status" data-state="idle">
+    <div class="indicator" id="indicator"></div>
+    <span class="status-text" id="status-text">Ready to capture</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
