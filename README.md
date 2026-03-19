@@ -28,62 +28,36 @@ fetch('https://mcp.figma.com/mcp/html-to-design/capture.js')
 
 ## Step by Step
 
-<details>
-<summary><strong>1. Copy the script</strong></summary>
+> **1. Copy the script**
+> Copy the code block above. You can also save this to [Raycast](https://raycast.com) or any clipboard manager for quick access — [more on that below](#quick-access-with-raycast-optional).
 
-Copy the code block above. You can also save this to [Raycast](https://raycast.com) or any clipboard manager for quick access — [more on that below](#quick-access-with-raycast-optional).
+> **2. Open any webpage**
+> Navigate via browser to whatever page you want to capture: a live site or a local HTML/build.
 
-</details>
-
-<details>
-<summary><strong>2. Open any webpage</strong></summary>
-
-Navigate via browser to whatever page you want to capture: a live site or a local HTML/build.
-
-</details>
-
-<details>
-<summary><strong>3. Open DevTools console</strong></summary>
-
-| OS | Shortcut |
-|----|----------|
-| Mac (Chrome) | `Cmd + Option + J` |
-| Mac (Safari) | `Cmd + Option + C` (must enable Developer menu first) |
-| Windows/Linux (Chrome) | `Ctrl + Shift + J` |
-| Any browser | Right-click anywhere → "Inspect" → click the "Console" tab |
-
-You can also use the Help menu button on MacOS and search "Developer tools."
-
+> **3. Open DevTools console**
+>
+> | OS | Shortcut |
+> |----|----------|
+> | Mac (Chrome) | `Cmd + Option + J` |
+> | Mac (Safari) | `Cmd + Option + C` (must enable Developer menu first) |
+> | Windows/Linux (Chrome) | `Ctrl + Shift + J` |
+> | Any browser | Right-click anywhere → "Inspect" → click the "Console" tab |
+>
+> You can also use the Help menu button on MacOS and search "Developer tools."
 <!-- TODO: Screen recording showing how to open DevTools console -->
 
-</details>
-
-<details>
-<summary><strong>4. Paste the script and hit Enter</strong></summary>
-
-Navigate to the console tab and paste the script into the console. Press Enter.
-
-If this your first time pasting into dev tools, you'll get a message asking you to allow pasting.
-
+> **4. Paste the script and hit Enter**
+> Navigate to the console tab and paste the script into the console. Press Enter.
+>
+> If this your first time pasting into dev tools, you'll get a message asking you to allow pasting.
 <!-- TODO: Screen recording of pasting into console -->
 
-</details>
+> **5. Click the element you want**
+> An element picker will appear. Click on whatever part of the page you want to capture. You can pick the whole page or just a section.
 
-<details>
-<summary><strong>5. Click the element you want</strong></summary>
-
-An element picker will appear. Click on whatever part of the page you want to capture. You can pick the whole page or just a section.
-
-</details>
-
-<details>
-<summary><strong>6. Paste into Figma</strong></summary>
-
-Open Figma and paste (`Cmd + V` on Mac, `Ctrl + V` on Windows). You'll get real, editable Figma frames.
-
+> **6. Paste into Figma**
+> Open Figma and paste (`Cmd + V` on Mac, `Ctrl + V` on Windows). You'll get real, editable Figma frames.
 <!-- TODO: Screen recording showing the paste result in Figma -->
-
-</details>
 
 ---
 
@@ -125,25 +99,18 @@ The script does four things:
 
 The capture serializes the visible DOM into a format Figma understands. It's copied to your clipboard as Figma-compatible data — when you paste, you get editable frames, not an image.
 
-<details>
-<summary><strong>What gets sent where</strong></summary>
+> **What gets sent where**
+> - **The script itself** is fetched from Figma's servers (`mcp.figma.com`). This is a one-time download.
+> - **Your page content stays local.** The DOM capture is serialized and copied to your clipboard. Nothing is sent to any server.
+> - **When you paste into Figma**, that's when Figma processes the data, which is the same as pasting anything else into Figma.
 
-- **The script itself** is fetched from Figma's servers (`mcp.figma.com`). This is a one-time download.
-- **Your page content stays local.** The DOM capture is serialized and copied to your clipboard. Nothing is sent to any server.
-- **When you paste into Figma**, that's when Figma processes the data, which is the same as pasting anything else into Figma.
-
-</details>
-
-<details>
-<summary><strong>Selector options</strong></summary>
+### Selector Options
 
 | Selector | Behavior |
 |----------|----------|
 | `'*'` | Element picker — click what you want |
 | `'body'` | Capture the entire page automatically |
 | `'.my-class'` | Capture a specific element by CSS selector |
-
-</details>
 
 ---
 
