@@ -1,0 +1,404 @@
+{
+  "version": "2.9",
+  "children": [
+    {
+      "type": "frame",
+      "id": "vHScz",
+      "x": 0,
+      "y": 0,
+      "name": "Deconstructed f — Logo Explorations",
+      "fill": "#FFFFFF",
+      "cornerRadius": 12,
+      "gap": 40,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "8jZTW",
+          "name": "Split f",
+          "width": 200,
+          "height": 200,
+          "fill": "#F8F8F8",
+          "cornerRadius": 8,
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "MD6hM",
+              "x": 55,
+              "y": 30,
+              "name": "Top Hook",
+              "geometry": "M0.85 1l-0.7 0 0-0.45c0-0.33 0.27-0.55 0.57-0.55l0.28 0 0 0.35-0.28 0c-0.1 0-0.17 0.07-0.17 0.2l0 0.45z",
+              "fill": "#1a1a1a",
+              "width": 90,
+              "height": 55
+            },
+            {
+              "type": "path",
+              "id": "JiK6l",
+              "x": 55,
+              "y": 95,
+              "name": "Bottom Stem + Crossbar",
+              "geometry": "M0.85 0l-0.7 0 0 0.07-0.15 0 0 0.28 0.15 0 0 0.65 0.4 0 0-0.65 0.3 0 0-0.28-0.3 0 0-0.07z",
+              "fill": "#1a1a1a",
+              "width": 90,
+              "height": 75
+            },
+            {
+              "type": "text",
+              "id": "lDFr7",
+              "x": 100,
+              "y": 180,
+              "name": "Label",
+              "fill": "#999999",
+              "content": "Split f",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nNs4z",
+          "name": "Shadow f",
+          "width": 200,
+          "height": 200,
+          "fill": "#F8F8F8",
+          "cornerRadius": 8,
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "IP2Th",
+              "x": 62,
+              "y": 28,
+              "name": "Shadow f (accent)",
+              "geometry": "M0.75 0.18c0-0.1 0.08-0.18 0.17-0.18l0.08 0 0 0.12-0.08 0c-0.04 0-0.07 0.03-0.07 0.06l0 0.12 0.15 0 0 0.12-0.15 0 0 0.58-0.3 0 0-0.58-0.25 0 0-0.12 0.25 0 0-0.12c0-0.1 0.08-0.18 0.17-0.18l0.03 0z",
+              "fill": "#A259FF",
+              "width": 80,
+              "height": 140
+            },
+            {
+              "type": "path",
+              "id": "VPEI2",
+              "x": 52,
+              "y": 35,
+              "name": "Main f (dark)",
+              "geometry": "M0.75 0.18c0-0.1 0.08-0.18 0.17-0.18l0.08 0 0 0.12-0.08 0c-0.04 0-0.07 0.03-0.07 0.06l0 0.12 0.15 0 0 0.12-0.15 0 0 0.58-0.3 0 0-0.58-0.25 0 0-0.12 0.25 0 0-0.12c0-0.1 0.08-0.18 0.17-0.18l0.03 0z",
+              "fill": "#1a1a1a",
+              "width": 80,
+              "height": 140
+            },
+            {
+              "type": "text",
+              "id": "zjw4m",
+              "x": 100,
+              "y": 180,
+              "name": "Label",
+              "fill": "#999999",
+              "content": "Shadow f",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "buqjw",
+          "name": "Dissolve f",
+          "width": 200,
+          "height": 200,
+          "fill": "#F8F8F8",
+          "cornerRadius": 8,
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "5b0yT",
+              "x": 50,
+              "y": 25,
+              "name": "Solid f left",
+              "geometry": "M1 0.12c0-0.07-0.1-0.12-0.25-0.12l-0.2 0 0 0.09 0.2 0c0.07 0 0.12 0.02 0.12 0.03l0 0.12-0.87 0 0 0.09 0.87 0 0 0.67 0.13 0 0-0.67 0-0.09 0-0.12z",
+              "fill": "#1a1a1a",
+              "width": 55,
+              "height": 145
+            },
+            {
+              "type": "ellipse",
+              "id": "J3FmR",
+              "x": 115,
+              "y": 30,
+              "name": "d1",
+              "fill": "#1a1a1a",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "ellipse",
+              "id": "NFdWe",
+              "x": 128,
+              "y": 27,
+              "name": "d2",
+              "opacity": 0.8,
+              "fill": "#1a1a1a",
+              "width": 6,
+              "height": 6
+            },
+            {
+              "type": "ellipse",
+              "id": "oEuhJ",
+              "x": 140,
+              "y": 32,
+              "name": "d3",
+              "opacity": 0.6,
+              "fill": "#1a1a1a",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "CtKET",
+              "x": 120,
+              "y": 42,
+              "name": "d4",
+              "opacity": 0.9,
+              "fill": "#1a1a1a",
+              "width": 7,
+              "height": 7
+            },
+            {
+              "type": "ellipse",
+              "id": "3eZO2",
+              "x": 135,
+              "y": 38,
+              "name": "d5",
+              "opacity": 0.5,
+              "fill": "#1a1a1a",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "ZZ1Oo",
+              "x": 148,
+              "y": 42,
+              "name": "d6",
+              "opacity": 0.4,
+              "fill": "#1a1a1a",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "7nA0g",
+              "x": 112,
+              "y": 55,
+              "name": "d7",
+              "opacity": 0.85,
+              "fill": "#1a1a1a",
+              "width": 6,
+              "height": 6
+            },
+            {
+              "type": "ellipse",
+              "id": "39Omh",
+              "x": 126,
+              "y": 52,
+              "name": "d8",
+              "opacity": 0.6,
+              "fill": "#1a1a1a",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "aeaYv",
+              "x": 138,
+              "y": 56,
+              "name": "d9",
+              "opacity": 0.35,
+              "fill": "#1a1a1a",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "OJh1J",
+              "x": 118,
+              "y": 68,
+              "name": "d10",
+              "opacity": 0.7,
+              "fill": "#A259FF",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "VoQPa",
+              "x": 130,
+              "y": 65,
+              "name": "d11",
+              "opacity": 0.5,
+              "fill": "#A259FF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "IKvX9",
+              "x": 142,
+              "y": 70,
+              "name": "d12",
+              "opacity": 0.3,
+              "fill": "#A259FF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "cbyGp",
+              "x": 115,
+              "y": 80,
+              "name": "d13",
+              "opacity": 0.7,
+              "fill": "#1a1a1a",
+              "width": 6,
+              "height": 6
+            },
+            {
+              "type": "ellipse",
+              "id": "521W7",
+              "x": 128,
+              "y": 78,
+              "name": "d14",
+              "opacity": 0.45,
+              "fill": "#A259FF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "RKnea",
+              "x": 140,
+              "y": 83,
+              "name": "d15",
+              "opacity": 0.25,
+              "fill": "#A259FF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "AzZyS",
+              "x": 112,
+              "y": 95,
+              "name": "d16",
+              "opacity": 0.55,
+              "fill": "#1a1a1a",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "nOT4d",
+              "x": 125,
+              "y": 92,
+              "name": "d17",
+              "opacity": 0.4,
+              "fill": "#A259FF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "y2ET7",
+              "x": 136,
+              "y": 97,
+              "name": "d18",
+              "opacity": 0.2,
+              "fill": "#A259FF",
+              "width": 2,
+              "height": 2
+            },
+            {
+              "type": "text",
+              "id": "pPgTY",
+              "x": 100,
+              "y": 180,
+              "name": "Label",
+              "fill": "#999999",
+              "content": "Dissolve f",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "2d3ya",
+          "name": "Mirror f",
+          "width": 200,
+          "height": 200,
+          "fill": "#F8F8F8",
+          "cornerRadius": 8,
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "Pn6WA",
+              "x": 30,
+              "y": 25,
+              "name": "Original f",
+              "geometry": "M0.75 0.12c0-0.07 0.08-0.12 0.17-0.12l0.08 0 0 0.09-0.08 0c-0.07 0-0.12 0.02-0.12 0.03l0 0.12 0.2 0 0 0.09-0.2 0 0 0.67-0.3 0 0-0.67-0.3 0 0-0.09 0.3 0 0-0.12c0-0.07 0.08-0.12 0.17-0.12l0.08 0z",
+              "fill": "#1a1a1a",
+              "width": 60,
+              "height": 145
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 1,
+              "id": "JTCgZ",
+              "x": 97,
+              "y": 20,
+              "name": "Mirror line",
+              "opacity": 0.6,
+              "fill": "#A259FF",
+              "width": 2,
+              "height": 155
+            },
+            {
+              "type": "path",
+              "id": "MlKo1",
+              "x": 106,
+              "y": 25,
+              "name": "Mirrored f",
+              "geometry": "M0.25 0.12c0-0.07-0.08-0.12-0.17-0.12l-0.08 0 0 0.09 0.08 0c0.07 0 0.12 0.02 0.12 0.03l0 0.12-0.2 0 0 0.09 0.2 0 0 0.67 0.3 0 0-0.67 0.3 0 0-0.09-0.3 0 0-0.12c0-0.07-0.08-0.12-0.17-0.12l-0.08 0z",
+              "fill": "#A259FF",
+              "width": 60,
+              "height": 145
+            },
+            {
+              "type": "text",
+              "id": "m6KzG",
+              "x": 100,
+              "y": 180,
+              "name": "Label",
+              "fill": "#999999",
+              "content": "Mirror f",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "500"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
