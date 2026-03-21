@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "URL to Figma",
+  "name": "Facsimile",
   "version": "1.0.0",
-  "description": "Capture any live or local page and paste it into Figma as an editable design.",
+  "description": "Capture any web page and paste it into Figma as an editable design.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icons/icon.svg"

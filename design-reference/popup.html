@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facsimile — Extension Popup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --canvas: #edebe1;
+      --canvas-dark: #e2dfd4;
+      --white: #fefdf9;
+      --ink: #1a1916;
+      --ink-soft: #3d3b35;
+      --ink-muted: #7a776d;
+      --ink-faint: #b0ada4;
+      --ink-ghost: #d4d1c8;
+      --amber: #e8a000;
+      --amber-dark: #c78800;
+      --amber-surface: #fef9eb;
+      --sage: #5a8a6a;
+      --sage-surface: #eef5f0;
+      --red: #d94444;
+      --red-surface: #fef2f2;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--canvas);
+      font-family: var(--font-sans);
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 2rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Page wrapper */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      max-width: 500px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Popup states container */
+    .popup-states {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .state-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .state-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-faint);
+    }
+
+    /* The popup frame */
+    .popup {
+      width: 320px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    /* Popup header */
+    .popup-header {
+      padding: 16px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--canvas);
+    }
+
+    .popup-brand {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .popup-url {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--ink-faint);
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Popup body */
+    .popup-body {
+      padding: 18px;
+    }
+
+    /* Capture button — the hero element */
+    .capture-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--ink);
+      color: var(--canvas);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .capture-btn:hover { background: var(--ink-soft); }
+
+    .capture-btn.capturing {
+      background: var(--amber);
+      color: var(--ink);
+    }
+
+    .capture-btn.success {
+      background: var(--sage);
+      color: white;
+    }
+
+    /* Settings section */
+    .settings-section {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--canvas);
+    }
+
+    .settings-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      margin-bottom: 10px;
+    }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+
+    .setting-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid var(--ink-ghost);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .checkbox.checked {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .checkbox.checked::after {
+      content: '✓';
+      color: var(--white);
+      font-size: 0.55rem;
+      font-weight: 700;
+    }
+
+    .setting-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .setting-hint {
+      font-size: 0.6rem;
+      color: var(--ink-faint);
+    }
+
+    /* Viewport chips */
+    .viewport-group {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .vp-chip {
+      padding: 5px 9px;
+      background: var(--canvas);
+      border: 1.5px solid transparent;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .vp-chip:hover {
+      border-color: var(--ink-ghost);
+    }
+
+    .vp-chip.selected {
+      background: var(--ink);
+      color: var(--canvas);
+      border-color: var(--ink);
+    }
+
+    /* Toggle switch */
+    .toggle {
+      width: 32px;
+      height: 18px;
+      border-radius: 9px;
+      background: var(--ink-ghost);
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--white);
+      transition: transform 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .toggle.on {
+      background: var(--ink);
+    }
+
+    .toggle.on::after {
+      transform: translateX(14px);
+    }
+
+    /* Status messages */
+    .status-bar {
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-bar.capturing {
+      background: var(--amber-surface);
+      color: var(--amber-text);
+    }
+
+    .status-bar.success {
+      background: var(--sage-surface);
+      color: var(--sage);
+    }
+
+    .status-bar.error {
+      background: var(--red-surface);
+      color: var(--red);
+    }
+
+    .spinner {
+      width: 12px; height: 12px;
+      border: 2px solid var(--ink);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Popup footer */
+    .popup-footer {
+      padding: 10px 18px;
+      border-top: 1px solid var(--canvas);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .popup-footer a {
+      font-size: 0.65rem;
+      color: var(--ink-faint);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .popup-footer a:hover { color: var(--ink-muted); }
+
+    .popup-footer .version {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--ink-ghost);
+    }
+
+    /* Recent captures */
+    .recent-section {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--canvas);
+    }
+
+    .recent-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      margin-bottom: 8px;
+    }
+
+    .recent-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--canvas);
+    }
+
+    .recent-item:last-child { border-bottom: none; }
+
+    .recent-item .recent-url {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--ink-muted);
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .recent-item .recent-time {
+      font-size: 0.6rem;
+      color: var(--ink-faint);
+    }
+
+    /* Nav back */
+    .back-link {
+      position: fixed;
+      top: 1rem;
+      left: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← Back</a>
+
+  <div class="page-header">
+    <h1>Extension popup</h1>
+    <p>The UI that appears when you click the Facsimile icon in Chrome's toolbar. Three states shown below.</p>
+  </div>
+
+  <div class="popup-states">
+
+    <!-- State 1: Default -->
+    <div class="state-wrapper">
+      <div class="state-label">Default</div>
+      <div class="popup">
+        <div class="popup-header">
+          <div class="popup-brand">Facsimile</div>
+          <div class="popup-url">tailwindcss.com/docs</div>
+        </div>
+        <div class="popup-body">
+          <button class="capture-btn">
+            <span>◆</span> Capture this page
+          </button>
+
+          <div class="settings-section">
+            <div class="settings-label">Viewports</div>
+            <div class="viewport-group">
+              <div class="vp-chip selected">Desktop 1440</div>
+              <div class="vp-chip">Laptop 1024</div>
+              <div class="vp-chip">Tablet 768</div>
+              <div class="vp-chip">Mobile 390</div>
+            </div>
+            <div style="font-size: 0.58rem; color: var(--ink-faint); margin-top: 4px;">Select multiple to capture at each width</div>
+          </div>
+
+          <div class="settings-section" style="border-top: none; margin-top: 8px; padding-top: 0;">
+            <div class="setting-row">
+              <div class="setting-left">
+                <div class="checkbox checked"></div>
+                <span class="setting-name">Interactions</span>
+              </div>
+              <span class="setting-hint">hover, focus states</span>
+            </div>
+            <div class="setting-row">
+              <div class="setting-left">
+                <div class="checkbox"></div>
+                <span class="setting-name">Scrolling shot</span>
+              </div>
+              <span class="setting-hint">full-length capture</span>
+            </div>
+          </div>
+
+          <div class="recent-section">
+            <div class="recent-label">Recent facsimiles</div>
+            <div class="recent-item">
+              <span class="recent-url">stripe.com/payments</span>
+              <span class="recent-time">2m ago</span>
+            </div>
+            <div class="recent-item">
+              <span class="recent-url">linear.app/features</span>
+              <span class="recent-time">15m ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <a href="#">Settings</a>
+          <span class="version">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- State 2: Multi-viewport selected -->
+    <div class="state-wrapper">
+      <div class="state-label">Multi-viewport</div>
+      <div class="popup">
+        <div class="popup-header">
+          <div class="popup-brand">Facsimile</div>
+          <div class="popup-url">tailwindcss.com/docs</div>
+        </div>
+        <div class="popup-body">
+          <button class="capture-btn">
+            <span>◆</span> Capture 3 viewports
+          </button>
+
+          <div class="settings-section">
+            <div class="settings-label">Viewports</div>
+            <div class="viewport-group">
+              <div class="vp-chip selected">Desktop 1440</div>
+              <div class="vp-chip">Laptop 1024</div>
+              <div class="vp-chip selected">Tablet 768</div>
+              <div class="vp-chip selected">Mobile 390</div>
+            </div>
+          </div>
+
+          <div class="settings-section" style="border-top: none; margin-top: 8px; padding-top: 0;">
+            <div class="setting-row">
+              <div class="setting-left">
+                <div class="checkbox checked"></div>
+                <span class="setting-name">Interactions</span>
+              </div>
+              <span class="setting-hint">hover, focus states</span>
+            </div>
+            <div class="setting-row">
+              <div class="setting-left">
+                <div class="checkbox checked"></div>
+                <span class="setting-name">Scrolling shot</span>
+              </div>
+              <span class="setting-hint">full-length capture</span>
+            </div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <a href="#">Settings</a>
+          <span class="version">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- State 3: Capturing -->
+    <div class="state-wrapper">
+      <div class="state-label">Capturing</div>
+      <div class="popup">
+        <div class="popup-header">
+          <div class="popup-brand">Facsimile</div>
+          <div class="popup-url">tailwindcss.com/docs</div>
+        </div>
+        <div class="popup-body">
+          <button class="capture-btn capturing">
+            Capturing...
+          </button>
+
+          <div class="status-bar capturing">
+            <div class="spinner"></div>
+            Desktop 1440 — serializing DOM
+          </div>
+
+          <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem;">
+              <span style="color: var(--sage);">✓</span>
+              <span style="color: var(--ink-muted);">Desktop 1440</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem;">
+              <div class="spinner" style="width: 10px; height: 10px; border-width: 1.5px;"></div>
+              <span style="color: var(--amber-text);">Tablet 768</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem;">
+              <span style="color: var(--ink-ghost);">○</span>
+              <span style="color: var(--ink-faint);">Mobile 390</span>
+            </div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <a href="#">Cancel</a>
+          <span class="version">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- State 4: Success -->
+    <div class="state-wrapper">
+      <div class="state-label">Success</div>
+      <div class="popup">
+        <div class="popup-header">
+          <div class="popup-brand">Facsimile</div>
+          <div class="popup-url">tailwindcss.com/docs</div>
+        </div>
+        <div class="popup-body">
+          <button class="capture-btn success">
+            ✓ Copied to clipboard
+          </button>
+
+          <div class="status-bar success">
+            ✓ 3 viewports captured — paste into Figma
+          </div>
+
+          <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem;">
+              <span style="color: var(--sage);">✓</span>
+              <span style="color: var(--ink-muted);">Desktop 1440</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem;">
+              <span style="color: var(--sage);">✓</span>
+              <span style="color: var(--ink-muted);">Tablet 768</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem;">
+              <span style="color: var(--sage);">✓</span>
+              <span style="color: var(--ink-muted);">Mobile 390</span>
+            </div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <a href="#">Capture again</a>
+          <span class="version">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sandbox -->
+  <div style="width: 100%; max-width: 900px; margin: 4rem auto 0; padding: 0 2rem;">
+    <hr style="border: none; height: 1px; background: var(--ink-ghost); margin-bottom: 3rem;">
+  </div>
+
+  <div class="page-header" style="margin-top: 0;">
+    <h1>Sandbox</h1>
+    <p>Interactive prototype — click buttons, toggle settings, run a capture simulation.</p>
+  </div>
+
+  <div class="popup" id="sandbox-popup">
+    <div class="popup-header">
+      <div class="popup-brand">Facsimile</div>
+      <div class="popup-url">tailwindcss.com/docs</div>
+    </div>
+    <div class="popup-body">
+      <button class="capture-btn" id="sb-captureBtn" onclick="handleCapture()">
+        <span id="sb-captureIcon">◆</span>
+        <span id="sb-captureText">Capture this page</span>
+      </button>
+
+      <div id="sb-statusBar" style="margin-top: 12px; padding: 8px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 500; display: flex; align-items: center; gap: 6px; opacity: 0; max-height: 0; overflow: hidden; transition: all 0.25s ease;">
+        <div class="spinner" id="sb-statusSpinner" style="display: none;"></div>
+        <span id="sb-statusText"></span>
+      </div>
+
+      <div id="sb-progressList" style="margin-top: 10px; display: flex; flex-direction: column; gap: 4px; max-height: 0; overflow: hidden; opacity: 0; transition: all 0.3s ease;"></div>
+
+      <div class="settings-section">
+        <div class="settings-label">Viewports</div>
+        <div class="viewport-group" id="sb-viewportGroup">
+          <div class="vp-chip selected" onclick="sbToggleVp(this)">Desktop 1440</div>
+          <div class="vp-chip" onclick="sbToggleVp(this)">Laptop 1024</div>
+          <div class="vp-chip" onclick="sbToggleVp(this)">Tablet 768</div>
+          <div class="vp-chip" onclick="sbToggleVp(this)">Mobile 390</div>
+        </div>
+        <div id="sb-vpHint" style="font-size: 0.58rem; color: var(--ink-faint); margin-top: 4px;">Select multiple to capture at each width</div>
+      </div>
+
+      <div class="settings-section" style="border-top: none; margin-top: 8px; padding-top: 0;">
+        <div class="setting-row" style="cursor: pointer;" onclick="sbToggleCb('sb-interactions')">
+          <div class="setting-left">
+            <div class="checkbox checked" id="sb-interactions"></div>
+            <span class="setting-name">Interactions</span>
+          </div>
+          <span class="setting-hint">hover, focus states</span>
+        </div>
+        <div class="setting-row" style="cursor: pointer;" onclick="sbToggleCb('sb-scrolling')">
+          <div class="setting-left">
+            <div class="checkbox" id="sb-scrolling"></div>
+            <span class="setting-name">Scrolling shot</span>
+          </div>
+          <span class="setting-hint">full-length capture</span>
+        </div>
+      </div>
+
+      <div class="recent-section" id="sb-recentSection">
+        <div class="recent-label">Recent facsimiles</div>
+        <div class="recent-item">
+          <span class="recent-url">stripe.com/payments</span>
+          <span class="recent-time">2m ago</span>
+        </div>
+        <div class="recent-item">
+          <span class="recent-url">linear.app/features</span>
+          <span class="recent-time">15m ago</span>
+        </div>
+      </div>
+    </div>
+    <div class="popup-footer">
+      <a href="#" onclick="sbReset(); return false;" style="cursor: pointer;">Reset</a>
+      <span class="version">v1.0.0</span>
+    </div>
+  </div>
+
+  <div style="height: 4rem;"></div>
+
+  <script>
+    let sbState = 'idle';
+
+    function sbGetVps() {
+      return [...document.querySelectorAll('#sb-viewportGroup .vp-chip.selected')].map(el => el.textContent);
+    }
+
+    function sbToggleVp(el) {
+      if (sbState !== 'idle') return;
+      el.classList.toggle('selected');
+      sbUpdateBtn();
+    }
+
+    function sbToggleCb(id) {
+      if (sbState !== 'idle') return;
+      document.getElementById(id).classList.toggle('checked');
+    }
+
+    function sbUpdateBtn() {
+      const text = document.getElementById('sb-captureText');
+      const btn = document.getElementById('sb-captureBtn');
+      const vps = sbGetVps();
+      if (vps.length === 0) {
+        text.textContent = 'Select a viewport';
+        btn.style.opacity = '0.4';
+        btn.style.pointerEvents = 'none';
+      } else if (vps.length === 1) {
+        text.textContent = 'Capture this page';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      } else {
+        text.textContent = 'Capture ' + vps.length + ' viewports';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      }
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function handleCapture() {
+      if (sbState !== 'idle') return;
+      const vps = sbGetVps();
+      if (vps.length === 0) return;
+
+      sbState = 'capturing';
+      const btn = document.getElementById('sb-captureBtn');
+      const icon = document.getElementById('sb-captureIcon');
+      const text = document.getElementById('sb-captureText');
+      const bar = document.getElementById('sb-statusBar');
+      const barText = document.getElementById('sb-statusText');
+      const barSpinner = document.getElementById('sb-statusSpinner');
+      const progress = document.getElementById('sb-progressList');
+      const recents = document.getElementById('sb-recentSection');
+
+      recents.style.display = 'none';
+      btn.classList.add('capturing');
+      icon.style.display = 'none';
+      text.textContent = 'Capturing...';
+
+      bar.style.background = 'var(--amber-surface)';
+      bar.style.color = 'var(--amber-text)';
+      bar.style.opacity = '1';
+      bar.style.maxHeight = '50px';
+      barSpinner.style.display = 'block';
+
+      if (vps.length === 1) {
+        barText.textContent = vps[0] + ' — injecting script';
+        await sleep(800);
+        barText.textContent = vps[0] + ' — toolbar spawned';
+        await sleep(600);
+        barText.textContent = vps[0] + ' — serializing DOM';
+        await sleep(1200);
+        barText.textContent = vps[0] + ' — copying to clipboard';
+        await sleep(500);
+      } else {
+        progress.innerHTML = vps.map((vp, i) =>
+          '<div id="sb-prog-' + i + '" style="display:flex;align-items:center;gap:6px;font-size:0.65rem;color:var(--ink-faint);">' +
+            '<span class="sb-prog-icon">○</span>' +
+            '<div class="sb-prog-spin" style="display:none;width:10px;height:10px;border:1.5px solid var(--ink);border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;"></div>' +
+            '<span>' + vp + '</span>' +
+          '</div>'
+        ).join('');
+        progress.style.maxHeight = '200px';
+        progress.style.opacity = '1';
+
+        for (let i = 0; i < vps.length; i++) {
+          const item = document.getElementById('sb-prog-' + i);
+          item.style.color = 'var(--amber-text)';
+          item.querySelector('.sb-prog-icon').style.display = 'none';
+          item.querySelector('.sb-prog-spin').style.display = 'block';
+          barText.textContent = vps[i] + ' — serializing DOM';
+          await sleep(800 + Math.random() * 400);
+          item.style.color = 'var(--ink-muted)';
+          item.querySelector('.sb-prog-spin').style.display = 'none';
+          item.querySelector('.sb-prog-icon').style.display = 'inline';
+          item.querySelector('.sb-prog-icon').textContent = '✓';
+          item.querySelector('.sb-prog-icon').style.color = 'var(--sage)';
+        }
+        barText.textContent = 'Copying to clipboard';
+        await sleep(400);
+      }
+
+      // Success
+      sbState = 'success';
+      btn.className = 'capture-btn success';
+      text.textContent = '✓ Copied to clipboard';
+      barSpinner.style.display = 'none';
+      bar.style.background = 'var(--sage-surface)';
+      bar.style.color = 'var(--sage)';
+      barText.textContent = vps.length === 1
+        ? '✓ Paste into Figma with Cmd+V'
+        : '✓ ' + vps.length + ' viewports captured — paste into Figma';
+
+      await sleep(2000);
+      text.textContent = '✓ Captured — click to redo';
+      btn.onclick = () => { sbReset(); setTimeout(handleCapture, 100); };
+    }
+
+    function sbReset() {
+      sbState = 'idle';
+      const btn = document.getElementById('sb-captureBtn');
+      const icon = document.getElementById('sb-captureIcon');
+      const bar = document.getElementById('sb-statusBar');
+      const progress = document.getElementById('sb-progressList');
+      const recents = document.getElementById('sb-recentSection');
+
+      btn.className = 'capture-btn';
+      btn.onclick = handleCapture;
+      icon.style.display = 'inline';
+      bar.style.opacity = '0';
+      bar.style.maxHeight = '0';
+      progress.style.maxHeight = '0';
+      progress.style.opacity = '0';
+      progress.innerHTML = '';
+      recents.style.display = 'block';
+      sbUpdateBtn();
+    }
+
+    sbUpdateBtn();
+  </script>
+</body>
+</html>
