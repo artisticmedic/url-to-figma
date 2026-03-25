@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Facsimile",
+  "name": "Facsimile - URL to Design",
   "version": "1.0.0",
   "description": "Capture any web page and paste it into Figma as an editable design.",
   "action": {
