@@ -5,11 +5,11 @@ const statusText = document.getElementById('status-text');
 // ─── State machine ────────────────────────────────────────────
 
 const STATES = {
-  idle:      { label: 'Ready to capture',                         btnText: 'Capture Page',  disabled: false },
-  fetching:  { label: 'Fetching script…',                          btnText: 'Capture Page',  disabled: true  },
-  injecting: { label: 'Injecting into page…',                      btnText: 'Capture Page',  disabled: true  },
-  waiting:   { label: 'Click "Copy to clipboard" on the page bar', btnText: 'Capture Again', disabled: false },
-  error:     { label: '',                                           btnText: 'Try Again',     disabled: false },
+  idle:      { label: 'Ready to capture',                                        btnText: 'Capture Again', disabled: false },
+  fetching:  { label: 'Fetching script…',                                         btnText: 'Capture Again', disabled: true  },
+  injecting: { label: 'Injecting into page…',                                     btnText: 'Capture Again', disabled: true  },
+  waiting:   { label: 'If the toolbar is spinning, click it to grant clipboard access', btnText: 'Capture Again', disabled: false },
+  error:     { label: '',                                                          btnText: 'Try Again',     disabled: false },
 };
 
 function setState(state, errorMsg) {
@@ -93,3 +93,4 @@ async function capture() {
 // ─── Init ─────────────────────────────────────────────────────
 
 btn.addEventListener('click', capture);
+capture(); // auto-start on popup open
