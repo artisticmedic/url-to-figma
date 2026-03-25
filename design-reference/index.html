@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facsimile — Prototype Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .index-hero {
+      padding: 9rem 0 4rem;
+    }
+
+    .index-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 3.5rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .index-hero p {
+      color: var(--ink-muted);
+      font-size: 1rem;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    .proto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      padding-bottom: 4rem;
+    }
+
+    .proto-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      position: relative;
+    }
+
+    .proto-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    .card-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    .dot-amber { background: var(--amber); }
+    .dot-indigo { background: var(--indigo); }
+    .dot-sage { background: var(--sage); }
+    .dot-muted { background: var(--ink-ghost); }
+
+    .proto-card h3 { font-size: 0.95rem; font-weight: 600; }
+    .proto-card p { color: var(--ink-muted); font-size: 0.85rem; line-height: 1.6; }
+
+    .card-tag {
+      font-size: 0.65rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--ink-faint); width: fit-content;
+    }
+
+    .card-tag.ready { color: var(--ink-muted); }
+
+    .section-label {
+      font-size: 0.65rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--ink-faint);
+      margin-bottom: 1rem; padding-top: 2rem;
+    }
+
+    .version-badge {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      font-family: var(--font-mono); font-size: 0.55rem; color: var(--ink-faint);
+    }
+  </style>
+</head>
+<body>
+  <nav class="proto-nav">
+    <div class="logo">Facsimile</div>
+    <div style="display: flex; gap: 0.25rem;">
+      <a href="index.html" class="active">index</a>
+      <a href="brand-guide.html">brand</a>
+      <a href="landing.html">landing</a>
+      <a href="popup.html">popup</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="index-hero">
+      <h1>Facsimile</h1>
+      <p>Brand, marketing, and UI prototypes for the Chrome extension that turns any page into editable Figma designs.</p>
+    </div>
+
+    <div class="section-label">Brand & Marketing</div>
+    <div class="proto-grid">
+      <a href="brand-guide.html" class="proto-card">
+        <span class="version-badge">v5</span>
+        <div class="card-dot dot-amber"></div>
+        <h3>Brand Guide</h3>
+        <p>Colors, typography, tokens. Warm canvas, editorial type.</p>
+        <span class="card-tag ready">Ready</span>
+      </a>
+      <a href="landing.html" class="proto-card">
+        <span class="version-badge">v5</span>
+        <div class="card-dot dot-indigo"></div>
+        <h3>Landing Page</h3>
+        <p>Marketing site — hero, features, comparison.</p>
+        <span class="card-tag ready">Ready</span>
+      </a>
+    </div>
+
+    <div class="section-label">Extension UI</div>
+    <div class="proto-grid">
+      <a href="popup.html" class="proto-card">
+        <span class="version-badge">v5</span>
+        <div class="card-dot dot-sage"></div>
+        <h3>Extension Popup</h3>
+        <p>The popup when you click the extension icon. Capture controls, viewport settings, status states.</p>
+        <span class="card-tag ready">Ready</span>
+      </a>
+      <div class="proto-card" style="opacity: 0.4; cursor: default;">
+        <div class="card-dot dot-muted"></div>
+        <h3>Settings Page</h3>
+        <p>Full options page — preferences, history, shortcuts.</p>
+        <span class="card-tag">Planned</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

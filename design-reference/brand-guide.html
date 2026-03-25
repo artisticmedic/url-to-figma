@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facsimile — Brand Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .page { padding: 6rem 0 4rem; }
+
+    .page-header { margin-bottom: 4rem; }
+
+    .page-header h1 {
+      font-family: var(--font-serif);
+      font-size: 2.75rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header p {
+      color: var(--ink-muted);
+      max-width: 480px;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .section { margin-bottom: 4.5rem; }
+
+    .section-title {
+      font-size: 0.65rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--ink-faint); margin-bottom: 1.5rem;
+    }
+
+    /* Logo */
+    .logo-display { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+    .logo-variant {
+      flex: 1; min-width: 260px;
+      border-radius: var(--radius-lg);
+      padding: 3.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .logo-variant.on-canvas { background: var(--canvas-dark); }
+    .logo-variant.on-white { background: var(--white); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03); }
+    .logo-variant.on-dark { background: var(--ink); }
+
+    .logo-text {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-style: italic;
+    }
+
+    .logo-variant.on-canvas .logo-text,
+    .logo-variant.on-white .logo-text { color: var(--ink); }
+    .logo-variant.on-dark .logo-text { color: var(--canvas); }
+
+    .logo-tagline {
+      font-size: 0.6rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--ink-faint);
+    }
+
+    .logo-variant.on-dark .logo-tagline { color: #5a5850; }
+
+    .logo-note {
+      font-size: 0.82rem; color: var(--ink-muted);
+      margin-top: 1.25rem; line-height: 1.7; max-width: 550px;
+    }
+
+    /* Etymology block */
+    .etymology {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+    }
+
+    .etymology-word {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.5rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .etymology-pronunciation {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink-faint);
+      margin-bottom: 0.75rem;
+    }
+
+    .etymology-def {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      padding-left: 1rem;
+      border-left: 2px solid var(--amber);
+    }
+
+    /* Colors */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .swatch {
+      border-radius: var(--radius-md); overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+    }
+
+    .swatch-color { height: 64px; }
+    .swatch-info { padding: 0.6rem 0.7rem; }
+    .swatch-name { font-size: 0.75rem; font-weight: 600; margin-bottom: 0.1rem; }
+    .swatch-value { font-family: var(--font-mono); font-size: 0.6rem; color: var(--ink-faint); }
+
+    .color-group-label {
+      font-size: 0.65rem; font-weight: 600;
+      color: var(--ink-faint); text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem; margin-top: 2rem;
+    }
+
+    .color-group-label:first-child { margin-top: 0; }
+
+    /* Typography */
+    .type-sample {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 2.5rem; margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+    }
+
+    .type-label {
+      font-size: 0.6rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--ink-faint); margin-bottom: 1.25rem;
+    }
+
+    .type-scale { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .type-row {
+      display: flex; align-items: baseline; gap: 1.5rem;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--canvas);
+    }
+
+    .type-row:last-child { border-bottom: none; }
+
+    .type-size {
+      font-family: var(--font-mono); font-size: 0.55rem;
+      color: var(--ink-faint); min-width: 90px; flex-shrink: 0;
+    }
+
+    /* Components */
+    .component-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+    .badge {
+      font-size: 0.7rem; font-weight: 600;
+      padding: 0.25rem 0.65rem; border-radius: var(--radius-sm);
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+
+    .badge-amber { background: var(--amber-surface); color: var(--amber-text); }
+    .badge-indigo { background: var(--indigo-surface); color: var(--indigo); }
+    .badge-neutral { background: var(--canvas-dark); color: var(--ink-muted); }
+
+    /* Guidelines */
+    .guidelines-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .guideline-card {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+    }
+
+    .guideline-card h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .guideline-card p { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.65; }
+
+    /* Voice */
+    .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+    .voice-header {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 1.1rem; margin-bottom: 1rem;
+    }
+
+    .voice-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+
+    .voice-list li {
+      font-size: 0.9rem; color: var(--ink-muted);
+      padding: 0.35rem 0; border-bottom: 1px solid var(--canvas-dark);
+    }
+
+    .voice-list li:last-child { border-bottom: none; }
+
+    @media (max-width: 640px) {
+      .logo-display { flex-direction: column; }
+      .guidelines-grid { grid-template-columns: 1fr; }
+      .voice-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="proto-nav">
+    <div class="logo">Facsimile</div>
+    <div style="display: flex; gap: 0.25rem;">
+      <a href="index.html">index</a>
+      <a href="brand-guide.html" class="active">brand</a>
+      <a href="landing.html">landing</a>
+      <a href="popup.html">popup</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page">
+      <div class="page-header">
+        <h1>Brand guide</h1>
+        <p>The visual identity for Facsimile — a Chrome extension that turns any web page into editable Figma designs.</p>
+      </div>
+
+      <!-- Name -->
+      <div class="section">
+        <div class="section-title">Name</div>
+        <div class="etymology">
+          <div class="etymology-word">Facsimile</div>
+          <div class="etymology-pronunciation">/fakˈsɪm.ɪ.li/ — noun</div>
+          <div class="etymology-def">
+            An exact copy of a document, print, or other item. From Latin <em>fac simile</em> — "make similar." The tool creates a facsimile of any web page as editable Figma layers.
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo -->
+      <div class="section">
+        <div class="section-title">Wordmark</div>
+        <div class="logo-display">
+          <div class="logo-variant on-canvas">
+            <div class="logo-text">Facsimile</div>
+            <div class="logo-tagline">Web to Figma</div>
+          </div>
+          <div class="logo-variant on-white">
+            <div class="logo-text">Facsimile</div>
+            <div class="logo-tagline">Web to Figma</div>
+          </div>
+          <div class="logo-variant on-dark">
+            <div class="logo-text">Facsimile</div>
+            <div class="logo-tagline">Web to Figma</div>
+          </div>
+        </div>
+        <p class="logo-note">Instrument Serif Italic. The full word is the brand — elegant, specific, memorable. No abbreviation, no symbol needed. The italic implies motion, transformation, the act of copying.</p>
+      </div>
+
+      <!-- Colors -->
+      <div class="section">
+        <div class="section-title">Color</div>
+
+        <div class="color-group-label">Canvas</div>
+        <div class="color-grid">
+          <div class="swatch"><div class="swatch-color" style="background: #edebe1;"></div><div class="swatch-info"><div class="swatch-name">Canvas</div><div class="swatch-value">#edebe1</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #f4f2ea;"></div><div class="swatch-info"><div class="swatch-name">Canvas Light</div><div class="swatch-value">#f4f2ea</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #e2dfd4;"></div><div class="swatch-info"><div class="swatch-name">Canvas Dark</div><div class="swatch-value">#e2dfd4</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #fefdf9; border-bottom: 1px solid #e6e4dc;"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-value">#fefdf9</div></div></div>
+        </div>
+
+        <div class="color-group-label">Ink</div>
+        <div class="color-grid">
+          <div class="swatch"><div class="swatch-color" style="background: #1a1916;"></div><div class="swatch-info"><div class="swatch-name">Ink</div><div class="swatch-value">#1a1916</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #3d3b35;"></div><div class="swatch-info"><div class="swatch-name">Ink Soft</div><div class="swatch-value">#3d3b35</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #7a776d;"></div><div class="swatch-info"><div class="swatch-name">Ink Muted</div><div class="swatch-value">#7a776d</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #b0ada4;"></div><div class="swatch-info"><div class="swatch-name">Ink Faint</div><div class="swatch-value">#b0ada4</div></div></div>
+        </div>
+
+        <div class="color-group-label">Amber</div>
+        <div class="color-grid">
+          <div class="swatch"><div class="swatch-color" style="background: #e8a000;"></div><div class="swatch-info"><div class="swatch-name">Amber</div><div class="swatch-value">#e8a000</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #c78800;"></div><div class="swatch-info"><div class="swatch-name">Amber Dark</div><div class="swatch-value">#c78800</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #ffd666;"></div><div class="swatch-info"><div class="swatch-name">Amber Light</div><div class="swatch-value">#ffd666</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #fef9eb;"></div><div class="swatch-info"><div class="swatch-name">Amber Surface</div><div class="swatch-value">#fef9eb</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #8a5e00;"></div><div class="swatch-info"><div class="swatch-name">Amber Text</div><div class="swatch-value">#8a5e00</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #7a5200;"></div><div class="swatch-info"><div class="swatch-name">Amber Text (canvas)</div><div class="swatch-value">#7a5200</div></div></div>
+        </div>
+
+        <div class="color-group-label">Secondary</div>
+        <div class="color-grid">
+          <div class="swatch"><div class="swatch-color" style="background: #5b5bd6;"></div><div class="swatch-info"><div class="swatch-name">Indigo</div><div class="swatch-value">#5b5bd6</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #5a8a6a;"></div><div class="swatch-info"><div class="swatch-name">Sage</div><div class="swatch-value">#5a8a6a</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background: #d94444;"></div><div class="swatch-info"><div class="swatch-name">Red</div><div class="swatch-value">#d94444</div></div></div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="section">
+        <div class="section-title">Typography</div>
+
+        <div class="type-sample">
+          <div class="type-label">Display — Instrument Serif Italic</div>
+          <div class="type-scale">
+            <div class="type-row">
+              <span class="type-size">3.5rem / 400i</span>
+              <span style="font-family: var(--font-serif); font-size: 3.5rem; font-style: italic; line-height: 1.1;">Facsimile</span>
+            </div>
+            <div class="type-row">
+              <span class="type-size">2rem / 400i</span>
+              <span style="font-family: var(--font-serif); font-size: 2rem; font-style: italic; line-height: 1.15;">Any page, your canvas</span>
+            </div>
+            <div class="type-row">
+              <span class="type-size">1.25rem / 400i</span>
+              <span style="font-family: var(--font-serif); font-size: 1.25rem; font-style: italic;">Section headlines</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Body — Inter</div>
+          <div class="type-scale">
+            <div class="type-row">
+              <span class="type-size">0.95rem / 600</span>
+              <span style="font-size: 0.95rem; font-weight: 600;">Card titles and UI labels</span>
+            </div>
+            <div class="type-row">
+              <span class="type-size">0.85rem / 400</span>
+              <span style="font-size: 0.85rem;">Body text and descriptions</span>
+            </div>
+            <div class="type-row">
+              <span class="type-size">0.75rem / 400</span>
+              <span style="font-size: 0.75rem; color: var(--ink-muted);">Secondary text, captions</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Mono — JetBrains Mono</div>
+          <div class="type-scale">
+            <div class="type-row">
+              <span class="type-size">0.82rem / 400</span>
+              <span style="font-family: var(--font-mono); font-size: 0.82rem;">document.body.querySelector('.hero')</span>
+            </div>
+            <div class="type-row">
+              <span class="type-size">0.6rem / 600</span>
+              <span style="font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;">SECTION LABELS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Components -->
+      <div class="section">
+        <div class="section-title">Components</div>
+
+        <div class="color-group-label">Buttons</div>
+        <div class="component-row">
+          <button class="btn btn-primary">Capture page →</button>
+          <button class="btn btn-secondary">GitHub</button>
+          <button class="btn btn-amber">Install extension</button>
+        </div>
+
+        <div class="color-group-label">Badges</div>
+        <div class="component-row">
+          <span class="badge badge-amber">Chrome extension</span>
+          <span class="badge badge-indigo">Figma</span>
+          <span class="badge badge-neutral">Free</span>
+        </div>
+
+        <div class="color-group-label">Terminal</div>
+        <div class="terminal" style="max-width: 560px;">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="comment">// what Facsimile does under the hood</span></div>
+            <div><span class="keyword">const</span> capture = <span class="keyword">await</span> <span class="string">facsimile</span>.capture({</div>
+            <div>&nbsp;&nbsp;selector: <span class="string">'body'</span>,</div>
+            <div>&nbsp;&nbsp;output: <span class="string">'figma'</span></div>
+            <div>});</div>
+          </div>
+        </div>
+
+        <div class="color-group-label" style="margin-top: 2rem;">Amber section</div>
+        <div class="amber-section" style="max-width: 480px;">
+          <div style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; margin-bottom: 0.5rem;">Free. No catch.</div>
+          <div style="font-size: 0.875rem; opacity: 0.8;">No subscriptions, no sign-ups, no data collection. Open source.</div>
+        </div>
+      </div>
+
+      <!-- Principles -->
+      <div class="section">
+        <div class="section-title">Design principles</div>
+        <div class="guidelines-grid">
+          <div class="guideline-card">
+            <h4>Warm, not sterile</h4>
+            <p>Beige canvas is the foundation. Everything sits on warm paper, not clinical white.</p>
+          </div>
+          <div class="guideline-card">
+            <h4>Quiet until it's not</h4>
+            <p>Mostly neutral. Amber and dark ink are the only loud moments — use them with intention.</p>
+          </div>
+          <div class="guideline-card">
+            <h4>Serif for soul, sans for service</h4>
+            <p>The italic serif gives Facsimile its personality. Sans body copy stays functional.</p>
+          </div>
+          <div class="guideline-card">
+            <h4>The name does the work</h4>
+            <p>"Facsimile" is the entire identity. No icon, no symbol. The word is distinctive enough.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voice -->
+      <div class="section">
+        <div class="section-title">Voice</div>
+        <div class="voice-grid">
+          <div>
+            <div class="voice-header">Sounds like us</div>
+            <ul class="voice-list">
+              <li>"Click. Capture. Paste."</li>
+              <li>"Free. No catch."</li>
+              <li>"Any page, your canvas."</li>
+              <li>"Editable layers, not a screenshot."</li>
+              <li>"One click in Chrome."</li>
+            </ul>
+          </div>
+          <div>
+            <div class="voice-header">Doesn't sound like us</div>
+            <ul class="voice-list">
+              <li>"Revolutionize your workflow"</li>
+              <li>"AI-powered design extraction"</li>
+              <li>"Enterprise-ready solution"</li>
+              <li>"Unlock premium features"</li>
+              <li>Buzzwords and jargon</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
