@@ -228,8 +228,8 @@ body {
 [data-state="done"]     .status-text { color: var(--green); }
 [data-state="error"]    .status-text { color: var(--red); }
 [data-state="fetching"] .status-text,
-[data-state="injecting"] .status-text,
-[data-state="waiting"]  .status-text { color: var(--amber-text, var(--amber)); }
+[data-state="injecting"] .status-text { color: var(--amber-text, var(--amber)); }
+[data-state="waiting"]  .status-text { color: var(--text); }
 
 /* ─── Indicator ────────────────────────────────────────────── */
 
@@ -255,10 +255,9 @@ body {
   animation: spin 0.75s linear infinite;
 }
 
-/* Waiting: static amber dot — script is done, ball is in user's court */
+/* Waiting: hide the dot — message is enough */
 [data-state="waiting"] .indicator {
-  background: var(--amber);
-  box-shadow: 0 0 0 3px var(--amber-bg);
+  display: none;
 }
 
 /* Capturing: accent spinner */
