@@ -1,10 +1,10 @@
-# Facsimile
+# Facsimile - URL to Design. Copy any URL to Figma design layers.
 
-A free Chrome extension to capture any local or live URL and send it to Figma as an editable design. This operates with the same core features and fidelity that the paid Claude Code × Figma plug-in works.
+A free Chrome extension to capture any local or live URL and send it to Figma as an editable design with layers intact. This operates with the same core features and fidelity that the Claude Code × Figma plug-in works, but without needing a Claude Code/AI subscription. This makes it handy for people who want to save Claude credits while working with HTML and Figma, or for those who want to capture a webpage or design into Figma. 
 
-**Free. No account. No third-parties.**
+**Free.**
 
-As of March 18, 2026, this works with any Figma account (free or paid), and in both the browser or desktop app. There is no authentication gate from Figma on this call. It does not call any third-parties (other than Figma itself).
+As of March 25, 2026, this works with any Figma account (free or paid), and in both the browser or desktop app. There is no authentication gate from Figma on this call. It does not call any third-parties (other than Figma itself).
 
 ---
 
@@ -136,9 +136,9 @@ The key detail: because the fetch runs in the extension's own context rather tha
 
 ## Why I Made This
 
-I've always been interested in HTML capture tools. 'Visbug' and 'Hover inspector like in Zeplin , Figma' are both daily drivers for me and helped bridge my design mind into development. Browsers already render everything, so it felt like the conversion to a design tool should be simpler than it is. Then, one night around 2 a.m., while tinkering with a Claude and Figma plugin, I discovered I could use a script to eliminate the need for session ID generation from Claude when transporting local HTML files to Figma files. Instead of going through Claude to send pages to Figma, I could inject the capture script directly into any page myself... Any live URL, not just local files.
+I've always been interested in HTML capture tools. 'Visbug' and 'Hover inspector like in Zeplin , Figma' are both daily drivers for me and helped bridge my design mind into development. Browsers already render everything, so it felt like the conversion to a design tool should be simpler than it is. And not just live URLs... local files too.
 
-I've been smoothing things out since then, and trying to not be overexcited to share with friends along the way (lol). I just love building things and finding better ways to get things done, and I'm always trying to make design/development tools more accessible. If you find ways to improve Facsimile, let me know. Otherwise, check out the other stuff I'm working on.
+I'm always trying to make design/development tools more accessible. If you find ways to improve Facsimile, let me know. Otherwise, check out the other stuff I'm working on.
 
 <!-- TODO: Link to portfolio / other projects -->
 
