@@ -1,6 +1,6 @@
 # Facsimile - URL to Design. 
 
-<img width="1080" height="1080" alt="1080v" src="https://github.com/user-attachments/assets/64a463b4-1f13-472c-9a70-aa8c2002ba86" />
+<img width="1920" height="960" alt="1920v" src="https://github.com/user-attachments/assets/08b71ce8-c977-4b45-ac39-ede2896eb7c2" />
 
 ## Copy any URL to Figma design layers.
 
@@ -12,7 +12,7 @@ As of March 25, 2026, this works with any Figma account (free or paid), and in b
 
 ---
 
-<!-- TODO: Hero video — screen recording of the full flow end-to-end -->
+<video src="store-assets/Cap 2026-03-25 at 17.11.44.low.mp4" controls width="100%"></video>
 
 ## Install the Extension
 
