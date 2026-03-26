@@ -12,7 +12,7 @@ As of March 25, 2026, this works with any Figma account (free or paid), and in b
 
 ---
 
-[![Watch the demo](https://github.com/user-attachments/assets/08b71ce8-c977-4b45-ac39-ede2896eb7c2)](https://supercut.ai/share/timgailey-design/81q-Iy88whU468KcVMUBMs)
+[Watch the demo](https://supercut.ai/share/timgailey-design/81q-Iy88whU468KcVMUBMs)
 
 ## Install the Extension
 
