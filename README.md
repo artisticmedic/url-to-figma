@@ -12,7 +12,7 @@ As of March 25, 2026, this works with any Figma account (free or paid), and in b
 
 ---
 
-<video src="store-assets/Cap 2026-03-25 at 17.11.44.low.mp4" controls width="100%"></video>
+<video src="store-assets/demo.mp4" controls width="100%"></video>
 
 ## Install the Extension
 
