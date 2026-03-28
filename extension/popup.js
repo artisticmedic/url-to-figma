@@ -5,18 +5,18 @@ const statusText = document.getElementById('status-text');
 // ─── State machine ────────────────────────────────────────────
 
 const STATES = {
-  idle:      { label: 'Ready to capture',                                        btnText: 'Capture Again', disabled: false },
-  fetching:  { label: 'Fetching script…',                                         btnText: 'Capture Again', disabled: true  },
-  injecting: { label: 'Injecting into page…',                                     btnText: 'Capture Again', disabled: true  },
-  waiting:   { label: 'If the toolbar is spinning, click it to grant clipboard access', btnText: 'Capture Again', disabled: false },
-  error:     { label: '',                                                          btnText: 'Try Again',     disabled: false },
+  idle:      { label: 'Ready to capture',                                        btnLabel: 'Capture this page', disabled: false },
+  fetching:  { label: 'Fetching script…',                                         btnLabel: 'Capturing…',        disabled: true  },
+  injecting: { label: 'Injecting into page…',                                     btnLabel: 'Capturing…',        disabled: true  },
+  waiting:   { label: 'If the toolbar is spinning, click it to grant clipboard access', btnLabel: 'Capture this page', disabled: false },
+  error:     { label: '',                                                          btnLabel: 'Try again',         disabled: false },
 };
 
 function setState(state, errorMsg) {
   const s = STATES[state];
   statusPill.dataset.state = state;
   statusText.textContent   = state === 'error' ? (errorMsg || 'Something went wrong') : s.label;
-  btn.textContent          = s.btnText;
+  btn.innerHTML            = '<span class="btn-icon">◆</span> ' + s.btnLabel;
   btn.disabled             = s.disabled;
 }
 
@@ -93,4 +93,3 @@ async function capture() {
 // ─── Init ─────────────────────────────────────────────────────
 
 btn.addEventListener('click', capture);
-capture(); // auto-start on popup open
