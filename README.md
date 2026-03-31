@@ -4,6 +4,8 @@
 
 ## Copy any URL to Figma design layers.
 
+[Website](https://facsimile.timgailey.com/)
+
 A free Chrome extension to capture any local or live URL and send it to Figma as an editable design with layers intact. This operates with the same core features and fidelity that the Claude Code × Figma plug-in works, but without needing a Claude Code/AI subscription. This makes it handy for people who want to save Claude credits while working with HTML and Figma, or for those who want to capture a webpage or design into Figma. 
 
 **Free.**
