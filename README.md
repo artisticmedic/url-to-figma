@@ -24,16 +24,19 @@ As of March 25, 2026, this works with any Figma account (free or paid), and in b
 **1. Get the files**
 Clone or download this repo to your computer.
 
-**2. Open Chrome extensions**
+**2. Run the build script**
+From the repo root, run `./build.sh`. This fetches Figma's `capture.js` and writes it to `extension/vendor/capture.js` so the extension can ship a self-contained copy. (The file isn't checked in — see the Disclaimer.)
+
+**3. Open Chrome extensions**
 Navigate to `chrome://extensions` in Chrome.
 
-**3. Enable Developer mode**
+**4. Enable Developer mode**
 Toggle on **Developer mode** in the top-right corner of the page.
 
-**4. Load the extension**
+**5. Load the extension**
 Click **Load unpacked**, then select the `extension/` folder from this repo.
 
-**5. Pin it**
+**6. Pin it**
 Click the puzzle piece icon in the Chrome toolbar and pin Facsimile so it's always one click away.
 
 ---
@@ -61,7 +64,7 @@ The popup shows live status as the capture runs:
 
 | Status | What's happening |
 |--------|-----------------|
-| Fetching script… | Downloading Figma's capture script from `mcp.figma.com` |
+| Preparing capture… | Loading the bundled `capture.js` from the extension package |
 | Injecting into page… | Loading the script into the current tab |
 | If the toolbar is spinning, click it to grant clipboard access | Script is running — see below |
 
@@ -72,7 +75,7 @@ If something goes wrong, the status will tell you why:
 
 | Error | Cause |
 |-------|-------|
-| Could not reach Figma servers | Network issue, or `mcp.figma.com` is temporarily down |
+| Could not load bundled capture script | Extension files are missing or unreadable — try reinstalling |
 | Cannot inject into this page | Chrome internal pages (`chrome://`) can't be captured |
 | Figma API unavailable — try reloading the page | The script didn't initialize in time; reload and try again |
 
@@ -80,7 +83,7 @@ If something goes wrong, the status will tell you why:
 
 ## Which Sites Work
 
-The extension fetches Figma's capture script from within the extension context — not from the page itself. This means it bypasses the Content Security Policy (CSP) restrictions that block the console script method on many sites.
+The extension ships Figma's capture script bundled inside the package and injects it into the page via the Chrome scripting API. Because the script is delivered by the extension rather than loaded by the page, it bypasses the Content Security Policy (CSP) restrictions that block the console-script method on many sites.
 
 | | Examples |
 |---|---------|
@@ -98,7 +101,7 @@ flowchart LR
     A --> B
 
     subgraph ext ["Extension context — bypasses page CSP"]
-        B["Fetch capture.js\nfrom mcp.figma.com"]
+        B["Read bundled capture.js\nfrom the extension package"]
     end
 
     B -->|"inject into page via\nChrome Scripting API"| C
@@ -120,10 +123,10 @@ flowchart LR
     style tab fill:#edebe1,stroke:#d4d1c8
 ```
 
-The key detail: because the fetch runs in the extension's own context rather than the page's, it sidesteps Content Security Policy restrictions that would block the same request from the browser console on many sites.
+The key detail: because the script is injected by the extension rather than loaded by the page, it sidesteps Content Security Policy restrictions that would block the same request from the browser console on many sites.
 
 ### What gets sent where
-- **The script itself** is fetched from Figma's servers (`mcp.figma.com`). This is a one-time download per capture.
+- **The script itself** is bundled inside the extension. No runtime download from `mcp.figma.com`. Refreshing it requires reinstalling a new version of the extension (or re-running `./build.sh` for developer installs).
 - **Your page content stays local.** The DOM capture is serialized and copied to your clipboard. Nothing is sent to any server.
 - **When you paste into Figma**, that's when Figma processes the data — the same as pasting anything else into Figma.
 
@@ -152,7 +155,7 @@ I'm always trying to make design/development tools more accessible. If you find 
 
 ## Disclaimer
 
-This project is not affiliated with, endorsed by, or officially supported by Figma. It uses Figma's publicly hosted capture script (`capture.js`) at runtime. Use of this script is subject to [Figma's Terms of Service](https://www.figma.com/tos). Figma may change or remove access to this script at any time without notice.
+This project is not affiliated with, endorsed by, or officially supported by Figma. It uses Figma's publicly hosted capture script (`capture.js`), which is fetched at build time by `build.sh` and bundled into the extension package. The script itself is not redistributed via this git repository (`extension/vendor/` is gitignored). Use of this script is subject to [Figma's Terms of Service](https://www.figma.com/tos). Figma may change or remove access to this script at any time without notice.
 
 ## License
 

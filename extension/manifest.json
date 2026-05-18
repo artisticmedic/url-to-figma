@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Facsimile - URL to Design",
   "short_name": "Facsimile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Capture any web page and paste it into Figma as an editable design.",
   "author": "Tim Gailey",
   "homepage_url": "https://facsimile.timgailey.com",
@@ -19,6 +19,5 @@
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
   },
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["https://mcp.figma.com/*"]
+  "permissions": ["activeTab", "scripting"]
 }

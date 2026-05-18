@@ -6,7 +6,7 @@ const statusText = document.getElementById('status-text');
 
 const STATES = {
   idle:      { label: 'Ready to capture',                                        btnLabel: 'Capture this page', disabled: false },
-  fetching:  { label: 'Fetching script…',                                         btnLabel: 'Capturing…',        disabled: true  },
+  preparing: { label: 'Preparing capture…',                                       btnLabel: 'Capturing…',        disabled: true  },
   injecting: { label: 'Injecting into page…',                                     btnLabel: 'Capturing…',        disabled: true  },
   waiting:   { label: 'If the toolbar is spinning, click it to grant clipboard access', btnLabel: 'Capture this page', disabled: false },
   error:     { label: '',                                                          btnLabel: 'Try again',         disabled: false },
@@ -27,15 +27,15 @@ function sleep(ms) {
 // ─── Capture ──────────────────────────────────────────────────
 
 async function capture() {
-  setState('fetching');
+  setState('preparing');
 
   let scriptText;
   try {
-    const res = await fetch('https://mcp.figma.com/mcp/html-to-design/capture.js');
+    const res = await fetch(chrome.runtime.getURL('vendor/capture.js'));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     scriptText = await res.text();
   } catch {
-    setState('error', 'Could not reach Figma servers');
+    setState('error', 'Could not load bundled capture script');
     return;
   }
 
